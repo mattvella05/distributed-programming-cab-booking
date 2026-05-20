@@ -48,4 +48,50 @@ router.post("/create", async (req, res) => {
 
 });
 
+router.get("/current/:userId", async (req, res) => {
+
+    try {
+
+        const bookings = await Booking.find({
+            userId: req.params.userId,
+            status: "current"
+        });
+
+        res.status(200).json({
+            bookings
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
+router.get("/past/:userId", async (req, res) => {
+
+    try {
+
+        const bookings = await Booking.find({
+            userId: req.params.userId,
+            status: "past"
+        });
+
+        res.status(200).json({
+            bookings
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
 module.exports = router;
