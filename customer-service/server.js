@@ -1,11 +1,25 @@
 const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
+
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("MongoDB Connected");
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 
 app.get("/", (req, res) => {
     res.send("Customer Service Running");
 });
 
-app.listen(3000, () => {
-    console.log("Customer Service running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Customer Service running on port ${PORT}`);
 });
