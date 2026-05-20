@@ -94,4 +94,35 @@ router.get("/past/:userId", async (req, res) => {
 
 });
 
+router.put("/:bookingId/complete", async (req, res) => {
+
+    try {
+
+        const booking = await Booking.findById(req.params.bookingId);
+
+        if (!booking) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        booking.status = "past";
+
+        await booking.save();
+
+        res.status(200).json({
+            message: "Booking marked as past",
+            booking
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
 module.exports = router;
