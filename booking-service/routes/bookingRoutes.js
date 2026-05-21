@@ -34,8 +34,32 @@ router.post("/create", async (req, res) => {
 
         await newBooking.save();
 
+        setTimeout(async () => {
+
+            try {
+
+                await axios.post(
+                    `http://localhost:3000/users/${userId}/notifications`,
+                    {
+                        message: `Your cab is ready for pickup. Ride details: from ${startingLocation} to ${endingLocation}, cab type: ${cabType}, passengers: ${passengers}, booking time: ${bookingDateTime}.`
+                    }
+                );
+
+                console.log("Cab ready notification sent");
+
+            } catch (notificationError) {
+
+                console.log(
+                    "Cab ready notification error:",
+                    notificationError.message
+                );
+
+            }
+
+        }, 3 * 60 * 1000);
+
         res.status(201).json({
-            message: "Booking created successfully",
+            message: "Booking created successfully. Cab ready notification will be sent after 3 minutes.",
             booking: newBooking
         });
 
