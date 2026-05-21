@@ -1,5 +1,6 @@
 const express = require("express");
 const Booking = require("../models/Booking");
+const axios = require("axios");
 
 const router = express.Router();
 
@@ -110,8 +111,39 @@ router.put("/:bookingId/complete", async (req, res) => {
 
         await booking.save();
 
+        const completedBookings = await Booking.countDocuments({
+            userId: booking.userId,
+            status: "past"
+        });
+
+        let discountEventMessage = "Discount event not triggered yet";
+
+        if (completedBookings >= 3) {
+
+            try {
+
+                const notificationResponse = await axios.post(
+                    `http://localhost:3000/users/${booking.userId}/discount-notification`
+                );
+
+                discountEventMessage = notificationResponse.data.message;
+
+            } catch (notificationError) {
+
+                discountEventMessage = "Discount notification failed";
+                console.log(
+                    "Discount notification error:",
+                    notificationError.message
+                );
+
+            }
+
+        }
+
         res.status(200).json({
             message: "Booking marked as past",
+            completedBookings,
+            discountEventMessage,
             booking
         });
 

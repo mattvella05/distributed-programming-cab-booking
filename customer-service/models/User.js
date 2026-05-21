@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema({
         required: true
     },
 
+    discountAvailable: {
+        type: Boolean,
+        default: false
+    },
+
     notifications: [
         {
             message: String,
