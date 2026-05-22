@@ -8,10 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const CUSTOMER_SERVICE_URL = "http://localhost:3000";
-const BOOKING_SERVICE_URL = "http://localhost:3001";
-const PAYMENT_SERVICE_URL = "http://localhost:3002";
-const LOCATION_SERVICE_URL = "http://localhost:3003";
+const CUSTOMER_SERVICE_URL = "https://customer-service-k1tp.onrender.com";
+const BOOKING_SERVICE_URL = "https://booking-service-ofzg.onrender.com";
+const PAYMENT_SERVICE_URL = "https://payment-service-3ic4.onrender.com";
+const LOCATION_SERVICE_URL = "https://location-service-4zdj.onrender.com";
 
 app.get("/", (req, res) => {
     res.json({
