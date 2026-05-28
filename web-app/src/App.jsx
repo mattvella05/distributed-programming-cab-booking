@@ -302,10 +302,15 @@ function App() {
             <br /><br />
 
             <input
-              name="bookingDateTime"
-              placeholder="2026-05-21T18:00:00"
-              onChange={handleChange(setBookingForm, bookingForm)}
-            />
+            type="time"
+            name="bookingDateTime"
+            onChange={(e) =>
+              setBookingForm({
+                ...bookingForm,
+                bookingDateTime: `2026-05-21T${e.target.value}:00`
+              })
+            }
+          />
 
             <br /><br />
 
